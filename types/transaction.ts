@@ -14,5 +14,5 @@ export interface TransactionFormData {
   date: string;
   description: string;
   category: string;
-  type: 'expense' | 'income';
+  type: 'expense' | 'income' | '';
 }

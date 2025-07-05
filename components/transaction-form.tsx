@@ -22,7 +22,8 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
     amount: transaction?.amount.toString() || '',
     date: transaction?.date || new Date().toISOString().split('T')[0],
     description: transaction?.description || '',
-    type: transaction?.type || 'expense',
+    category: transaction?.category || '',
+    type: transaction?.type || '',
   });
 
   const [errors, setErrors] = useState<Partial<TransactionFormData>>({});
@@ -42,8 +43,10 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
       newErrors.description = 'Please enter a description';
     }
 
-    if (!formData.type) {
-      newErrors.type = 'Please select a transaction type';
+    
+
+    if (!formData.category) {
+      newErrors.category = 'Please select a category';
     }
 
     setErrors(newErrors);
@@ -59,7 +62,8 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
           amount: '',
           date: new Date().toISOString().split('T')[0],
           description: '',
-          type: 'expense',
+          category: '',
+          type: '',
         });
       }
     }
@@ -118,9 +122,9 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
 
           <div className="space-y-2">
             <Label htmlFor="type">Transaction Type</Label>
-            <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
+            <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value as '' | 'expense' | 'income')}>
               <SelectTrigger className={errors.type ? 'border-destructive' : ''}>
-                <SelectValue placeholder="Select transaction type" />
+                <SelectValue placeholder="Please select a transaction type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="expense">Expense</SelectItem>
@@ -128,6 +132,23 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
               </SelectContent>
             </Select>
             {errors.type && <p className="text-sm text-destructive">{errors.type}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="category">Category</Label>
+            <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+              <SelectTrigger className={errors.category ? 'border-destructive' : ''}>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Food">Food</SelectItem>
+                <SelectItem value="Transport">Transport</SelectItem>
+                <SelectItem value="Shopping">Shopping</SelectItem>
+                <SelectItem value="Bills">Bills</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.category && <p className="text-sm text-destructive">{errors.category}</p>}
           </div>
 
           <div className="space-y-2">
