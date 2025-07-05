@@ -28,7 +28,11 @@ export function CategoryBudgetPieChart({ transactions, month }: CategoryBudgetPi
       try {
         const res = await fetch(`/api/budgets?month=${month}`);
         const data = await res.json();
-        setBudgets(data);
+        if (Array.isArray(data)) {
+          setBudgets(data);
+        } else {
+          setBudgets([]);
+        }
       } catch (e) {
         setBudgets([]);
       } finally {
