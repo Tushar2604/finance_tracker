@@ -23,7 +23,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
     date: transaction?.date || new Date().toISOString().split('T')[0],
     description: transaction?.description || '',
     category: transaction?.category || '',
-    type: transaction?.type || 'expense',
+    type: transaction?.type || '',
   });
 
   const [errors, setErrors] = useState<Partial<TransactionFormData>>({});
@@ -43,9 +43,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
       newErrors.description = 'Please enter a description';
     }
 
-    if (!formData.type) {
-      newErrors.type = 'Please select a transaction type';
-    }
+    
 
     if (!formData.category) {
       newErrors.category = 'Please select a category';
@@ -65,7 +63,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
           date: new Date().toISOString().split('T')[0],
           description: '',
           category: '',
-          type: 'expense',
+          type: '',
         });
       }
     }
@@ -124,7 +122,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
 
           <div className="space-y-2">
             <Label htmlFor="type">Transaction Type</Label>
-            <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
+            <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value as '' | 'expense' | 'income')}>
               <SelectTrigger className={errors.type ? 'border-destructive' : ''}>
                 <SelectValue placeholder="Please select a transaction type" />
               </SelectTrigger>
