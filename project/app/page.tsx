@@ -24,7 +24,8 @@ export default function Home() {
       amount: parseFloat(data.amount),
       date: data.date,
       description: data.description,
-      type: data.type,
+      category: data.category,
+      type: data.type as 'expense' | 'income',
     });
     setTransactions(getTransactions());
   };
@@ -35,6 +36,7 @@ export default function Home() {
         amount: parseFloat(data.amount),
         date: data.date,
         description: data.description,
+        category: data.category,
         type: data.type,
       });
       setTransactions(getTransactions());

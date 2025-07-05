@@ -22,6 +22,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
     amount: transaction?.amount.toString() || '',
     date: transaction?.date || new Date().toISOString().split('T')[0],
     description: transaction?.description || '',
+    category: transaction?.category || '',
     type: transaction?.type || 'expense',
   });
 
@@ -46,6 +47,10 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
       newErrors.type = 'Please select a transaction type';
     }
 
+    if (!formData.category) {
+      newErrors.category = 'Please select a category';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -59,6 +64,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
           amount: '',
           date: new Date().toISOString().split('T')[0],
           description: '',
+          category: '',
           type: 'expense',
         });
       }
@@ -120,7 +126,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
             <Label htmlFor="type">Transaction Type</Label>
             <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
               <SelectTrigger className={errors.type ? 'border-destructive' : ''}>
-                <SelectValue placeholder="Select transaction type" />
+                <SelectValue placeholder="Please select a transaction type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="expense">Expense</SelectItem>
@@ -128,6 +134,23 @@ export function TransactionForm({ transaction, onSubmit, onCancel, isEditing = f
               </SelectContent>
             </Select>
             {errors.type && <p className="text-sm text-destructive">{errors.type}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="category">Category</Label>
+            <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+              <SelectTrigger className={errors.category ? 'border-destructive' : ''}>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Food">Food</SelectItem>
+                <SelectItem value="Transport">Transport</SelectItem>
+                <SelectItem value="Shopping">Shopping</SelectItem>
+                <SelectItem value="Bills">Bills</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.category && <p className="text-sm text-destructive">{errors.category}</p>}
           </div>
 
           <div className="space-y-2">
