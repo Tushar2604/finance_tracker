@@ -25,7 +25,7 @@ export default function Home() {
       date: data.date,
       description: data.description,
       category: data.category,
-      type: data.type as 'expense' | 'income',
+      type: (data.type === '' ? 'expense' : data.type) as 'expense' | 'income',
     });
     setTransactions(getTransactions());
   };
@@ -37,7 +37,7 @@ export default function Home() {
         date: data.date,
         description: data.description,
         category: data.category,
-        type: data.type,
+        type: (data.type === '' ? 'expense' : data.type) as 'expense' | 'income',
       });
       setTransactions(getTransactions());
       setEditingTransaction(null);
